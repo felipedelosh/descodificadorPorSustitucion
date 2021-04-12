@@ -304,6 +304,9 @@ Este es el programa de desencriptado por sustitución del loko 2021
 
 4 -> Si ud supone que el espacio es el caracter ó patrón ... introduzcalo y este le mostrara como serian las posibles palabras.
 
+
+https://github.com/felipedelosh/descodificadorPorSustitucion/blob/main/Decriptor%20by%20loko.pdf
+
         """
 
         self.mostrarVentanaEmergente(titulo, texto)
