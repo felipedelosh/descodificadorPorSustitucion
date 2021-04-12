@@ -25,6 +25,9 @@ class Decriptor:
         self.lblVerPalabrasSiElEspacioEs = Label(self.tela, text="Ver palabras si el espacio es: ")
         self.txtVerPalabrasSiElEspacioEs = Entry(self.tela, width=6)
         self.btnVerPalabrasSiElEspacioEs = Button(self.tela, text="Ver", command=self.verPalabrasSiElEspacioEsA)
+        self.lblVerCuantasVecesApareceUnPatron = Label(self.tela, text="Ver cuantas Veces Aparece el patrón: ")
+        self.txtVerCuantasVecesApareceUnPatron = Entry(self.tela, width=6)
+        self.btnVerCuantasVecesApareceUnPatron = Button(self.tela, text="Ver", command=self.verCantidadDeCoindicenciasDePatron)
 
 
         """Variables"""
@@ -57,6 +60,9 @@ class Decriptor:
         self.lblVerPalabrasSiElEspacioEs.place(x=20, y=590)
         self.txtVerPalabrasSiElEspacioEs.place(x=190, y=590)
         self.btnVerPalabrasSiElEspacioEs.place(x=240, y=588)
+        self.lblVerCuantasVecesApareceUnPatron.place(x=20, y=630)
+        self.txtVerCuantasVecesApareceUnPatron.place(x=240, y=630)
+        self.btnVerCuantasVecesApareceUnPatron.place(x=300, y=628)
 
         
 
@@ -90,6 +96,8 @@ class Decriptor:
     def actualizarEstadisticas(self):
         txt = "%Porcentaje de Aparición de Caracteres%\n\n"
         totalDeCaracteresDelTexto = len(self.textoEncriptado)
+        
+
         estadisticaCaracteres = {}
 
         for i in self.textoEncriptado:
@@ -97,6 +105,8 @@ class Decriptor:
                 estadisticaCaracteres[i] = estadisticaCaracteres[i] + 1 
             else:
                 estadisticaCaracteres[i] = 1
+
+        txt = txt + "Total caracteres: " + str(len(estadisticaCaracteres)) + "\n\n"
 
         porcentajeCaracteres = []
 
@@ -214,6 +224,43 @@ class Decriptor:
         else:
             self.mostrarVentanaEmergente("Error...", "Para realizar la acción de espaciado cargue un texto")
 
+    def verCantidadDeCoindicenciasDePatron(self):
+        if self.textoCargadoExitosamente:
+            if self.validarPatronDeCoincidencia():
+
+                patron = self.txtVerCuantasVecesApareceUnPatron.get() # Este es el patron que se esta buscndo
+                longitudPatron = len(patron) # Que tan largo es el patron
+
+                # Variables inforamtivas
+                cuantasVecesApareceElPatron = 0
+
+
+                contador = 0 # Para recorrer el texto encriptado
+                limite = len(self.textoEncriptado)/longitudPatron # Para recorrer el texto encriptado
+                while contador < limite:
+                    parteTextoEnciptado = self.textoEncriptado[contador:contador+longitudPatron]
+
+                    if patron == parteTextoEnciptado:
+                        cuantasVecesApareceElPatron = cuantasVecesApareceElPatron + 1
+
+                    contador = contador + longitudPatron
+
+
+                # Se Hace el repote:
+                txt = "El patron: " + patron + " aparece un total de: " + str(cuantasVecesApareceElPatron)
+
+                self.mostrarVentanaEmergente("El patron aparece: ", txt) 
+
+
+                    
+        
+
+            else:
+                self.mostrarVentanaEmergente("Error...", "Se necesita ingresar un patrón de busqueda")
+            
+        else:
+            self.mostrarVentanaEmergente("Error...", "Para ver cuantas veces aparece el patrón cargue el texto")
+
 
 
     def actualizartexto(self):
@@ -269,6 +316,9 @@ Este es el programa de desencriptado por sustitución del loko 2021
 
     def validarVerPalabrasSiElEspacioEs(self):
         return str(self.txtVerPalabrasSiElEspacioEs.get()) != ""
+
+    def validarPatronDeCoincidencia(self):
+        return str(self.txtVerCuantasVecesApareceUnPatron.get()).strip() != ""
         
 
 
